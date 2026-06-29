@@ -1,0 +1,20 @@
+.DS_Store
+.idea
+*.log
+
+node_modules/
+coverage/
+reports/
+build/
+dist/
+
+# Yarn
+.yarn-integrity
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+yarn-error.log
+.pnp.*

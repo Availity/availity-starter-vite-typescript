@@ -1,0 +1,66 @@
+{
+  "name": "availity-starter-vite-typescript",
+  "version": "0.1.0",
+  "private": true,
+  "description": "React project using @availity/workflow-vite and TypeScript",
+  "keywords": [
+    "react",
+    "availity",
+    "workflow",
+    "vite"
+  ],
+  "homepage": "https://github.com/availity/availity-workflow#readme",
+  "license": "MIT",
+  "main": "project/app/index.tsx",
+  "scripts": {
+    "av": "av",
+    "about": "av about",
+    "build": "av build",
+    "build:production": "cross-env NODE_ENV=production av build",
+    "build:staging": "cross-env NODE_ENV=staging av build",
+    "help": "av help",
+    "lint": "av lint",
+    "format": "prettier --write '**/*.{ts,tsx,js,scss}'",
+    "format:check": "prettier --check '**/*.{ts,tsx,js,scss}'",
+    "profile": "av profile",
+    "profile:production": "cross-env NODE_ENV=production av profile",
+    "start": "av start",
+    "test": "av test",
+    "test:coverage": "av test --coverage",
+    "test:watch": "av test --watch"
+  },
+  "type": "module",
+  "engines": {
+    "node": "^22.0.0 || ^24.0.0"
+  },
+  "dependencies": {
+    "@availity/api-axios": "^13.2.0",
+    "@availity/element": "^3.0.1",
+    "@availity/yup": "^8.2.0",
+    "@hookform/resolvers": "^5.4.0",
+    "@tanstack/react-query": "^5.75.5",
+    "axios": "^1.18.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-hook-form": "^7.80.0",
+    "react-router-dom": "^6.30.4",
+    "yup": "^1.7.1"
+  },
+  "devDependencies": {
+    "@availity/workflow-vite": "1.0.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^22.20.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "cross-env": "^10.1.0",
+    "eslint-config-availity": "^15.1.1",
+    "prettier": "^3.9.3",
+    "typescript": "5.9.3"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "packageManager": "yarn@4.17.0"
+}
