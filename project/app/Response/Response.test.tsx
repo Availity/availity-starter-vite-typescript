@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter as Router } from 'react-router-dom';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import { Response } from './Response';
 
@@ -10,11 +11,20 @@ vi.mock('react-router-dom', async () => {
   return { ...actual, useNavigate: () => mockNavigate };
 });
 
+vi.mock('@/hooks/useSubmission', () => ({
+  useSubmission: () => ({
+    data: { id: 'REF-ABC123', status: 'Received', submittedAt: '6/29/2026, 12:00:00 PM' },
+    isLoading: false,
+  }),
+}));
+
 const renderResponse = () =>
   render(
-    <Router>
-      <Response />
-    </Router>
+    <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+      <Router>
+        <Response />
+      </Router>
+    </QueryClientProvider>
   );
 
 describe('Response', () => {
@@ -22,51 +32,20 @@ describe('Response', () => {
 
   test('renders success alert', () => {
     renderResponse();
-    expect(screen.getByText('Your Appeal has been submitted.')).toBeInTheDocument();
+    expect(screen.getByText('Your request has been submitted.')).toBeInTheDocument();
   });
 
-  test('renders transaction information card', () => {
+  test('renders submission details', () => {
     renderResponse();
-    expect(screen.getByText('Transaction Information')).toBeInTheDocument();
-    expect(screen.getByText(/966343462/)).toBeInTheDocument();
-    expect(screen.getByText('Jane Smith')).toBeInTheDocument();
+    expect(screen.getByText('REF-ABC123')).toBeInTheDocument();
+    expect(screen.getByText('Received')).toBeInTheDocument();
   });
 
-  test('renders claim information card', () => {
-    renderResponse();
-    expect(screen.getByText('Claim Information')).toBeInTheDocument();
-    expect(screen.getByText('123456789')).toBeInTheDocument();
-  });
-
-  test('renders appeal information card', () => {
-    renderResponse();
-    expect(screen.getByText('Appeal Information')).toBeInTheDocument();
-    expect(screen.getByText('Timely Filing')).toBeInTheDocument();
-  });
-
-  test('renders provider information card', () => {
-    renderResponse();
-    expect(screen.getByText('Provider Information')).toBeInTheDocument();
-    expect(screen.getByText('Rodriguez, Brandon')).toBeInTheDocument();
-  });
-
-  test('renders payer contact information card', () => {
-    renderResponse();
-    expect(screen.getByText('Payer Contact Information')).toBeInTheDocument();
-    expect(screen.getByText('(800) 955-5682')).toBeInTheDocument();
-  });
-
-  test('renders new appeal button', () => {
-    renderResponse();
-    expect(screen.getByRole('button', { name: /new appeal/i })).toBeInTheDocument();
-  });
-
-  test('new appeal button navigates to home', async () => {
+  test('new request button navigates to home', async () => {
     const user = userEvent.setup();
     renderResponse();
 
-    await user.click(screen.getByRole('button', { name: /new appeal/i }));
-
+    await user.click(screen.getByRole('button', { name: /new request/i }));
     expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 });
