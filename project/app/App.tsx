@@ -3,7 +3,7 @@ import { Container, PageHeader, Spaces } from '@availity/element';
 
 import { Request } from './Request';
 import { Response } from './Response';
-import { Footer } from './components';
+import { ErrorBoundary, Footer } from './components';
 
 const App = () => {
   const [searchParams] = useSearchParams();
@@ -12,16 +12,19 @@ const App = () => {
   return (
     <Container data-testid="app-container" id="app-container">
       <Spaces spaceIds={[spaceId]} clientId="test">
+        {/* TODO: Replace headerText, breadcrumbs, and help with your app's values */}
         <PageHeader
-          breadcrumbs={{ active: 'Request Form' }}
-          headerText="Appeal Request Form"
-          help={{ helpAppName: 'Appeal Request Form', url: 'https://design.availity.com' }}
+          breadcrumbs={{ active: 'Home' }}
+          headerText="My Application"
+          help={{ helpAppName: 'My Application', url: 'https://design.availity.com' }}
         />
         <Container>
-          <Routes>
-            <Route path="/" element={<Request />} />
-            <Route path="/response" element={<Response />} />
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Request />} />
+              <Route path="/response" element={<Response />} />
+            </Routes>
+          </ErrorBoundary>
           <Footer />
         </Container>
       </Spaces>

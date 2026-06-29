@@ -13,7 +13,9 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      staleTime: Number.POSITIVE_INFINITY,
+      // Data is considered fresh for 5 minutes. Adjust per your app's needs.
+      // Use Infinity only for truly static data (e.g., feature flags).
+      staleTime: 5 * 60 * 1000,
     },
   },
 });
