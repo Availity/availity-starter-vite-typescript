@@ -1,21 +1,22 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "baseUrl": ".",
-    "paths": { "@/*": ["./project/app/*"] },
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "ESNext"],
-    "types": ["vitest/globals", "@testing-library/jest-dom/vitest", "./node_modules/@availity/workflow-vite/globals"],
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "jsx": "react-jsx",
     "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./project/app/*"]
+    },
+    "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "types": ["vitest/globals", "@testing-library/jest-dom/vitest", "./node_modules/@availity/workflow-vite/globals"],
+    "skipLibCheck": true,
     "noEmit": true
   },
   "include": ["project"]

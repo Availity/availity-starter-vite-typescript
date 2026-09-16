@@ -27,18 +27,22 @@ yarn start
 
 ## Scripts
 
-| Script                  | Description                  |
-| ----------------------- | ---------------------------- |
-| `yarn start`            | Start the development server |
-| `yarn build`            | Build for development        |
-| `yarn build:production` | Build for production         |
-| `yarn build:staging`    | Build for staging            |
-| `yarn test`             | Run tests (Vitest)           |
-| `yarn test:watch`       | Run tests in watch mode      |
-| `yarn test:coverage`    | Run tests with coverage      |
-| `yarn lint`             | Lint source files (ESLint)   |
-| `yarn format`           | Format files (Prettier)      |
-| `yarn format:check`     | Check formatting             |
+| Script                  | Description                    |
+| ----------------------- | ------------------------------ |
+| `yarn start`            | Start the development server   |
+| `yarn build`            | Build for development          |
+| `yarn build:production` | Build for production           |
+| `yarn build:staging`    | Build for staging              |
+| `yarn test`             | Run tests (Vitest)             |
+| `yarn test:watch`       | Run tests in watch mode        |
+| `yarn test:coverage`    | Run tests with coverage        |
+| `yarn lint`             | Lint source files (ESLint)     |
+| `yarn format`           | Format files (Prettier)        |
+| `yarn format:check`     | Check formatting               |
+| `yarn typecheck`        | Type-check with TypeScript     |
+| `yarn release`          | Build and release              |
+| `yarn production`       | Build and release (production) |
+| `yarn staging`          | Build and release (staging)    |
 
 ## Project Structure
 
@@ -49,20 +53,24 @@ project/
 │   ├── index.html         # HTML template
 │   ├── App.tsx            # Root component with routing
 │   ├── components/        # Shared components
+│   ├── hooks/             # Custom hooks
 │   ├── Request/           # Request page feature
 │   └── Response/          # Response page feature
 ├── config/
-│   └── workflow.js        # Workflow configuration
-└── data/                  # Mock API data for local development
+│   ├── workflow.js        # Workflow configuration
+│   └── routes.json        # Mock server route mappings
+└── data/
+    ├── me.json            # Mock user data
+    └── spaces.json        # Mock spaces data
 ```
 
 ## Configuration
 
-| File                         | Purpose                                      |
-| ---------------------------- | -------------------------------------------- |
-| `project/config/workflow.js` | Dev server, Vite, and build configuration    |
-| `eslint.config.js`          | ESLint flat config                           |
-| `tsconfig.json`             | TypeScript configuration (type-checking only)|
+| File                         | Purpose                                       |
+| ---------------------------- | --------------------------------------------- |
+| `project/config/workflow.js` | Dev server, Vite, and build configuration     |
+| `eslint.config.js`           | ESLint flat config                            |
+| `tsconfig.json`              | TypeScript configuration (type-checking only) |
 
 This project uses ESM (`"type": "module"` in package.json). All config files use `import`/`export` syntax.
 
@@ -71,8 +79,8 @@ This project uses ESM (`"type": "module"` in package.json). All config files use
 - **Build/Dev**: [@availity/workflow-vite](https://github.com/Availity/availity-workflow) (Vite + Vitest)
 - **Components**: [@availity/element](https://availity.github.io/element/) (MUI-based design system)
 - **Data Fetching**: [@tanstack/react-query](https://tanstack.com/query)
-- **Forms**: [react-hook-form](https://react-hook-form.com/) + [@availity/yup](https://github.com/Availity/availity-workflow)
-- **Routing**: [react-router-dom](https://reactrouter.com/)
+- **Forms**: [react-hook-form](https://react-hook-form.com/) + [yup](https://github.com/jquense/yup)
+- **Routing**: [react-router](https://reactrouter.com/)
 - **Testing**: [Vitest](https://vitest.dev/) + [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)
 - **Linting**: [eslint-config-availity](https://github.com/Availity/eslint-config-availity) (flat config)
 
@@ -84,12 +92,12 @@ This template uses `@tanstack/react-query` for server state and data fetching.
 
 ```tsx
 import { useQuery } from '@tanstack/react-query';
-import AvUsersApi from '@availity/api-axios';
+import { avUserApi } from '@availity/api-axios';
 
 const useCurrentUser = () =>
   useQuery({
     queryKey: ['user'],
-    queryFn: () => AvUsersApi.me(),
+    queryFn: () => avUserApi.me(),
   });
 
 const Component = () => {
@@ -97,7 +105,7 @@ const Component = () => {
 
   if (isLoading) return null;
 
-  return <p>{user ? user.name : 'A user has no name'}</p>;
+  return <p>{user ? user.firstName : 'A user has no name'}</p>;
 };
 ```
 

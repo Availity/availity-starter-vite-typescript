@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Button, Paper, TextField, Grid } from '@availity/element';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -25,7 +25,10 @@ export const Request = () => {
     formState: { errors },
   } = useForm<FormValues>({ defaultValues: { name: '', email: '', message: '' }, resolver: yupResolver(schema) });
 
-  const onSubmit = () => {
+  const onSubmit = (_data: FormValues) => {
+    // Replace with your actual submission logic, e.g. an API mutation
+    // eslint-disable-next-line no-console
+    console.log(_data);
     navigate('/response');
   };
 
@@ -34,17 +37,31 @@ export const Request = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container rowSpacing={2} columnSpacing={3}>
           <Grid size={{ xs: 12, md: 6 }}>
-            <TextField {...register('name')} label="Name" required error={!!errors.name} helperText={errors.name?.message} />
+            <TextField
+              {...register('name')}
+              label="Name"
+              required
+              error={!!errors.name}
+              helperText={errors.name?.message}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <TextField {...register('email')} label="Email" required error={!!errors.email} helperText={errors.email?.message} />
+            <TextField
+              {...register('email')}
+              label="Email"
+              required
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
           </Grid>
           <Grid size={{ xs: 12 }}>
             <TextField {...register('message')} label="Message" multiline />
           </Grid>
         </Grid>
         <Grid container justifyContent="flex-end" mt={2}>
-          <Button type="submit" color="primary">Submit</Button>
+          <Button type="submit" color="primary">
+            Submit
+          </Button>
         </Grid>
       </form>
     </Paper>

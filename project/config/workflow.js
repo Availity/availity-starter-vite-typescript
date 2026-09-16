@@ -20,15 +20,7 @@ export default (config) => {
   // Vitest configuration
   config.development.vitestOverrides = {
     ...config.development.vitestOverrides,
-    setupFiles: ['project/app/vitest.setup.ts'],
   };
-
-  if (process.argv.includes('--coverage')) {
-    config.development.vitestOverrides = {
-      ...config.development.vitestOverrides,
-      coverage: { enabled: true },
-    };
-  }
 
   return config;
 };
