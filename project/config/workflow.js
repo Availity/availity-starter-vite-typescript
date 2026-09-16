@@ -20,7 +20,6 @@ export default (config) => {
   // Vitest configuration
   config.development.vitestOverrides = {
     ...config.development.vitestOverrides,
-    setupFiles: ['project/app/vitest.setup.ts'],
   };
 
   return config;
