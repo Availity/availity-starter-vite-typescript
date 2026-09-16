@@ -1,4 +1,4 @@
-import { Routes, Route, useSearchParams } from 'react-router-dom';
+import { Routes, Route, useSearchParams } from 'react-router';
 import { Container, PageHeader, Spaces } from '@availity/element';
 
 import { Request } from './Request';

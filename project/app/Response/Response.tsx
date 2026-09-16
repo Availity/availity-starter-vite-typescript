@@ -1,5 +1,15 @@
-import { Alert, Card, CardHeader, CardContent, Grid, Typography, Button, Stack, CircularProgress } from '@availity/element';
-import { useNavigate } from 'react-router-dom';
+import {
+  Alert,
+  Card,
+  CardHeader,
+  CardContent,
+  Grid,
+  Typography,
+  Button,
+  Stack,
+  CircularProgress,
+} from '@availity/element';
+import { useNavigate } from 'react-router';
 import { useSubmission } from '@/hooks/useSubmission';
 
 export const Response = () => {
@@ -31,7 +41,9 @@ export const Response = () => {
         </CardContent>
       </Card>
       <Stack direction="row" justifyContent="flex-end" mt={3}>
-        <Button onClick={() => navigate('/')} color="primary">New Request</Button>
+        <Button onClick={() => navigate('/')} color="primary">
+          New Request
+        </Button>
       </Stack>
     </>
   );
