@@ -42,6 +42,7 @@
     "@availity/element": "^3.0.4",
     "@hookform/resolvers": "^5.9.1",
     "@tanstack/react-query": "^5.75.5",
+    "axios": "^1.20.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-hook-form": "^7.88.0",
@@ -50,9 +51,7 @@
   },
   "devDependencies": {
     "@availity/workflow-vite": "^1.5.0",
-    "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@testing-library/user-event": "^14.6.7",
     "@types/node": "^22.20.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
