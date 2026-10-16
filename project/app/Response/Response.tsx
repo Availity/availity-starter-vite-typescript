@@ -1,22 +1,12 @@
-import {
-  Alert,
-  Card,
-  CardHeader,
-  CardContent,
-  Grid,
-  Typography,
-  Button,
-  Stack,
-  CircularProgress,
-} from '@availity/element';
-import { useNavigate } from 'react-router';
-import { useSubmission } from '@/hooks/useSubmission';
+import { Alert, Card, CardHeader, CardContent, Grid, Typography, Button, Stack } from '@availity/element';
+import { useLocation, useNavigate } from 'react-router';
+
+import type { Submission } from '@/hooks';
 
 export const Response = () => {
   const navigate = useNavigate();
-  const { data: submission, isLoading } = useSubmission();
-
-  if (isLoading) return <CircularProgress />;
+  const location = useLocation();
+  const submission = (location.state as { submission?: Submission } | null)?.submission;
 
   return (
     <>

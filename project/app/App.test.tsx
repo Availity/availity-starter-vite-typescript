@@ -1,9 +1,13 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter as Router } from 'react-router';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { avUserApi } from '@availity/api-axios';
 
 import App from './App';
+
+vi.mock('@availity/api-axios', () => ({
+  avUserApi: { me: vi.fn().mockResolvedValue({ firstName: 'Jane', lastName: 'Smith' }) },
+}));
 
 vi.mock('@availity/element', async () => {
   const actual = await vi.importActual('@availity/element');
@@ -38,35 +42,9 @@ describe('App', () => {
     expect(screen.getByText(/Availity/)).toBeInTheDocument();
   });
 
-  test('renders the request form at root route', () => {
-    renderApp('/');
-    expect(screen.getByRole('textbox', { name: /name/i })).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
-  });
-
-  test('shows validation errors when submitting empty form', async () => {
-    const user = userEvent.setup();
-    renderApp('/');
-
-    await user.click(screen.getByRole('button', { name: /submit/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText('Name is required')).toBeInTheDocument();
-      expect(screen.getByText('Email is required')).toBeInTheDocument();
-    });
-  });
-
-  test('navigates to response page on valid submission', async () => {
-    const user = userEvent.setup();
-    renderApp('/');
-
-    await user.type(screen.getByRole('textbox', { name: /name/i }), 'Jane Smith');
-    await user.type(screen.getByRole('textbox', { name: /email/i }), 'jane@example.com');
-    await user.click(screen.getByRole('button', { name: /submit/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText('Your request has been submitted.')).toBeInTheDocument();
-    });
+  test('loads the current user', async () => {
+    renderApp();
+    expect(await screen.findByText('Signed in as Jane Smith')).toBeInTheDocument();
+    expect(avUserApi.me).toHaveBeenCalled();
   });
 });

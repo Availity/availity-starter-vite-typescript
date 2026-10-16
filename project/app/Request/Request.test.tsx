@@ -55,7 +55,7 @@ describe('Request', () => {
     });
   });
 
-  test('navigates to /response on valid submission', async () => {
+  test('navigates to /response with the submission on valid submit', async () => {
     const user = userEvent.setup();
     renderRequest();
 
@@ -64,7 +64,9 @@ describe('Request', () => {
     await user.click(screen.getByRole('button', { name: /submit/i }));
 
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/response');
+      expect(mockNavigate).toHaveBeenCalledWith('/response', {
+        state: { submission: expect.objectContaining({ status: 'Received' }) },
+      });
     });
   });
 });

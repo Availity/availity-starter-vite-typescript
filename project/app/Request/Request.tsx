@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { useSubmitRequest, type RequestPayload } from '@/hooks';
+
 type FormValues = {
   name: string;
   email: string;
@@ -18,6 +20,7 @@ const schema: yup.ObjectSchema<FormValues> = yup.object().shape({
 
 export const Request = () => {
   const navigate = useNavigate();
+  const { mutateAsync, isPending } = useSubmitRequest();
 
   const {
     handleSubmit,
@@ -25,11 +28,9 @@ export const Request = () => {
     formState: { errors },
   } = useForm<FormValues>({ defaultValues: { name: '', email: '', message: '' }, resolver: yupResolver(schema) });
 
-  const onSubmit = (_data: FormValues) => {
-    // Replace with your actual submission logic, e.g. an API mutation
-    // eslint-disable-next-line no-console
-    console.log(_data);
-    navigate('/response');
+  const onSubmit = async (values: RequestPayload) => {
+    const submission = await mutateAsync(values);
+    navigate('/response', { state: { submission } });
   };
 
   return (
@@ -59,7 +60,7 @@ export const Request = () => {
           </Grid>
         </Grid>
         <Grid container justifyContent="flex-end" mt={2}>
-          <Button type="submit" color="primary">
+          <Button type="submit" color="primary" disabled={isPending}>
             Submit
           </Button>
         </Grid>
