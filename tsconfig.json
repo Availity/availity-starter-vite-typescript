@@ -15,7 +15,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "types": ["vitest/globals", "@testing-library/jest-dom/vitest", "./node_modules/@availity/workflow-vite/globals"],
+    "types": ["vitest/globals", "@availity/workflow-vite/globals"],
     "skipLibCheck": true,
     "noEmit": true
   },
