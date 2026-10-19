@@ -6,6 +6,12 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { Request } from './Request';
 
 const mockNavigate = vi.fn();
+const mockCreate = vi.fn();
+vi.mock('@availity/api-axios', () => ({
+  default: class {
+    create = mockCreate;
+  },
+}));
 vi.mock('react-router', async () => {
   const actual = await vi.importActual('react-router');
   return { ...actual, useNavigate: () => mockNavigate };
@@ -21,7 +27,13 @@ const renderRequest = () =>
   );
 
 describe('Request', () => {
-  beforeEach(() => mockNavigate.mockClear());
+  beforeEach(() => {
+    mockNavigate.mockClear();
+    mockCreate.mockReset();
+    mockCreate.mockResolvedValue({
+      data: { id: 'REF-JS4F2K', status: 'Received', submittedAt: '10/16/2026, 5:46:27 PM' },
+    });
+  });
 
   test('renders all form fields', () => {
     renderRequest();
@@ -55,7 +67,7 @@ describe('Request', () => {
     });
   });
 
-  test('navigates to /response on valid submission', async () => {
+  test('navigates to /response with the submission on valid submit', async () => {
     const user = userEvent.setup();
     renderRequest();
 
@@ -64,7 +76,10 @@ describe('Request', () => {
     await user.click(screen.getByRole('button', { name: /submit/i }));
 
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/response');
+      expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({ name: 'Jane Smith' }));
+      expect(mockNavigate).toHaveBeenCalledWith('/response', {
+        state: { submission: expect.objectContaining({ status: 'Received' }) },
+      });
     });
   });
 });
